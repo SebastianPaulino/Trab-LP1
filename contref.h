@@ -13,7 +13,7 @@ int pos = 0;
 void *malloc2(int TAM)
 {
     endMem *aux = (endMem*)malloc(sizeof(endMem)); //aloca
-    aux->x = aux->x++; //modifica 
+    aux->x = 1; //modifica 
     y[pos] = aux; // bota no vetor
     pos++;
     void *end2 = malloc(TAM);//salva o endereco com tamanho
@@ -27,24 +27,25 @@ void refresh(void *end, int info)
     {
     	if(end == y[i]->end)//se for igual o que foi guardado
 	    {
-	        y[i]->x = y[i]->x+info;//modifica
+	        y[i]->x = info+y[i]->x;//modifica
 	        if(y[i]->x == 0) // e caso continue como 0 (-1 do info)
 	        {
 	            for(int j=i;j<pos;j++)
 				{
 					y[j] = y[j+1];//substitui o primeiro pelo proximo, excluindo o outro
 				}
+				free(y[pos]);//verificar
 				pos--;// e diminuindo a pos
 	        }
 	    }
 	}
 }
 
-void atrib2(void *end1, void *end2)
+void atrib2(void **end1, void *end2)
 {
-    refresh(end1, -1);//-1 pois na hora de somar tem que dar 0 ou nao e o que queremos
-    refresh(end2, 1); //caso o primeiro refresh seja True este da Falso
-    end1 = end2; //atualiza
+	refresh(end1, -1); //-1 pois na hora de somar tem que dar 0 ou nao e o que queremos
+    refresh(end2, 1); //caso o primeiro refresh seja T este da? F
+    *end1 = end2; //atualiza ERRADO
 }
 
 void dump()
